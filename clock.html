@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+            box-sizing: border-box;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            background-color: black;
+        }
+        #clock{
+            height:400px;
+            width:400px;
+            border-radius: 50%;
+            background-color: white; 
+            position: relative; 
+        }
+        #clock div{
+            font-size: 1.5rem;
+        }
+        #clock12{
+            position: absolute;
+            top:20px;
+            left:48%;
+        }
+        #clock1{
+            position: absolute;
+            top:40px;
+            left:68%;
+        }
+        #clock2{
+            position: absolute;
+            top:100px;
+            left:84%;
+        }
+        #clock3{
+            position: absolute;
+            top:180px;
+            left:90%;
+        }
+        #clock4{
+            position: absolute;
+            top:270px;
+            left:85%;
+        }
+        #clock5{
+            position: absolute;
+            top:340px;
+            left:70%;
+        }
+        #clock6{
+            position: absolute;
+            top:360px;
+            left:50%;
+        }
+        #clock7{
+            position: absolute;
+            top:335px;
+            left:28%;
+        }
+        #clock8{
+            position: absolute;
+            top:260px;
+            left:12%;
+        }
+        #clock9{
+            position: absolute;
+            top:170px;
+            left:8%;
+        }
+        #clock10{
+            position: absolute;
+            top:90px;
+            left:14%;
+        }
+        #clock11{
+            position: absolute;
+            top:40px;
+            left:28%;
+        }
+        #center{
+            height:15px;
+            width:15px;
+            border-radius: 50%;
+            background-color: black;
+            position: relative;
+            top:44%;
+            left:50%;
+            z-index: 1;
+        }
+        #hrhand{
+            position: absolute;
+            height:120px;
+            width:5px;
+            border-radius: 20px;
+            background-color: black;
+            position: absolute;
+            left:50%;
+            bottom:50%;
+            
+        }
+        #minhand{
+            position: absolute;
+            height:150px;
+            width:5px;
+            border-radius: 20px;
+            background-color: darkblue;
+            position: absolute;
+            left:50%;
+            bottom:50%;
+            
+        }
+        #sechand{
+            position: absolute;
+            height:160px;
+            width:3px;
+            border-radius: 20px;
+            background-color: red;
+            position: absolute;
+            left:50%;
+            bottom:50%;
+            
+        }
+        #hrhand,
+        #minhand,
+        #sechand{
+            transform-origin: bottom;
+        }
+        
+
+
+    </style>
+</head>
+<body>
+    <div id="clock">
+        <div id="clock12"><b>12</b></div>
+        <div id="clock1"><b>1</b></div>
+        <div id="clock2"><b>2</b></div>
+        <div id="clock3"><b>3</b></div>
+        <div id="clock4"><b>4</b></div>
+        <div id="clock5"><b>5</b></div>
+        <div id="clock6"><b>6</b></div>
+        <div id="clock7"><b>7</b></div>
+        <div id="clock8"><b>8</b></div>
+        <div id="clock9"><b>9</b></div>
+        <div id="clock10"><b>10</b></div>
+        <div id="clock11"><b>11</b></div>
+
+        <div id="center"> 
+        <div id="hrhand"></div>
+        <div id="minhand"></div>
+        <div id="sechand"></div>
+        </div>
+    </div>
+    <script>
+        // jise rotate krna h uski id pakdi
+        let hrhandline=document.getElementById("hrhand");
+        let minhandline=document.getElementById("minhand");
+        let sechandline=document.getElementById("sechand");
+
+        let clockfn=()=>{
+            // uske andar world ka actual time dala
+            let clockdeg=new Date();
+            let hr=clockdeg.getHours();
+            let min=clockdeg.getMinutes();
+            let sec=clockdeg.getSeconds();
+            // wo sui kitna tez ghumna h
+            let rothr=hr*30;
+            let rotmin=min*6;
+            let rotsec=sec*6;
+            //kese ghumaga
+            hrhandline.style.transform=`translateX(-50%)rotate(${rothr}deg)`;
+            minhandline.style.transform=`translateX(-50%)rotate(${rotmin}deg)`;
+            sechandline.style.transform=`translateX(-50%)rotate(${rotsec}deg)`;
+        }
+        clockfn();
+        setInterval(clockfn,1000);
+    </script>
+</body>
+</html>

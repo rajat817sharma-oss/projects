@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="name" placeholder="enter your name"> <br>
+    <input type="email" id="mail" placeholder="enter your email id"> <br>
+    <input type="number" id="number" placeholder="enter your phone number"> <br>
+    <input type="submit" id="submit" placeholder="submit"> <br>
+
+    <table border="1">
+    <tr>
+        <th>sr no.</th>
+        <th>name</th>
+        <th>email id</th>
+        <th>phone number</th>
+        <th>options</th>
+    </tr>
+    <tbody id="newdata">
+
+    </tbody>
+    </table>
+</body>
+<script>
+    let count=0;
+    let fn=()=>{
+        count++;
+        let bodytag=document.getElementById("newdata");
+        let row=document.createElement('tr');
+        let data0=document.createElement('td'); 
+        let data1=document.createElement('td'); 
+        let data2=document.createElement('td'); 
+        let data3=document.createElement('td'); 
+        let data4=document.createElement('td'); 
+
+        let a=document.getElementById("name").value;
+        let b=document.getElementById("mail").value;
+        let c=document.getElementById("number").value;
+
+        let btn1=document.createElement('button');
+        btn1.innerText="remove";
+        btn1.style.height="20px";
+        btn1.style.width="60px";
+        btn1.style.backgroundColor="red";
+        btn1.style.color="white"; 
+        btn1.style.border="0";  
+        
+        let btn2=document.createElement('button');
+        btn2.innerText="edit";
+        btn2.style.height="20px";
+        btn2.style.width="60px";
+        btn2.style.backgroundColor="green";
+        btn2.style.color="white"; 
+        btn2.style.border="0";          
+       
+
+        data0.innerText=count;
+        data1.innerText=a;
+        data2.innerText=b;
+        data3.innerText=c;
+        data4.appendChild(btn1);
+        data4.appendChild(btn2);
+
+
+        row.appendChild(data0);
+        row.appendChild(data1);
+        row.appendChild(data2);
+        row.appendChild(data3);
+        row.appendChild(data4);
+        bodytag.appendChild(row);
+        btn1.addEventListener("click",()=>{
+            row.remove();
+        })
+        btn2.addEventListener("click",()=>{
+            if(data1.isContentEditable){
+                btn2.innerText="edit";
+            data1.contentEditable=false;
+            data2.contentEditable=false;
+            data3.contentEditable=false;
+            }
+            else{
+                btn2.innerText="save";
+            data1.contentEditable=true;
+            data2.contentEditable=true;
+            data3.contentEditable=true;
+            }
+        })
+
+        document.getElementById("name").value="";
+        document.getElementById("mail").value="";
+        document.getElementById("number").value="";
+        
+    }
+    document.getElementById("submit").addEventListener("click",fn);
+
+</script>
+</html>

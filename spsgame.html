@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        #game-name{
+            background-color: darkblue;
+            text-align: center;
+            color:white;
+        }
+        #images-sct{
+            display: flex;
+            justify-content: center;
+            gap:50px;
+            margin-block:30px;
+        }
+        #images-sct img{
+            height:auto;
+            width:100%;
+            max-width:150px;
+        }
+        #score-sct{
+            display: flex;
+            justify-content: center;
+        }
+        #btn-div{
+            display: flex;
+            justify-content: center;
+            margin-block:30px;
+        }
+        #res{
+            height:50px;
+            width:300px;
+            background-color: green;
+            border: green;
+            color:white;
+            font-size: .9rem;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-name">
+        <h1>Stone Paper Scissor Game</h1>
+    </div>
+
+    <div id="images-sct">
+        <img src="stones1.png" id="opt1" onclick="fn1()">
+        <img src="papers2.png" id="opt2" onclick="fn2()">
+        <img src="scissors3.png" id="opt3" onclick="fn3()">
+    </div>
+    <div id="score-sct">
+        <p id="score">you:0 | computer:0</p>
+    </div>
+    <div id="btn-div"> <button id="res">choose something to start the game</button> </div>
+    <script>
+        let res=document.getElementById("res");
+        let point=document.getElementById("score");
+        let userscore=0;
+        let compscore=0;
+        let fn1=()=>{
+            let comp=Math.floor(Math.random()*3);
+            if(comp==0){
+                res.innerHTML=("Computer choose stone,match is draw");
+            }
+            else if(comp==1){
+                res.innerHTML=("Computer choose paper,computer won");
+                compscore++
+            }
+            else{
+                res.innerHTML=("Computer choose scissor,you won");
+                userscore++;
+            }
+            point.innerHTML="you: "+userscore+" | computer: "+compscore;
+            }
+        let fn2=()=>{
+            let comp=Math.floor(Math.random()*3);
+            if(comp==0){
+                res.innerHTML=("Computer choose stone,you is won");
+                userscore++;
+            }
+            else if(comp==1){
+                res.innerHTML=("Computer choose paper,match is draw");
+            }
+            else{
+                res.innerHTML=("Computer choose scissor,computer is won");
+                compscore++
+            }
+            point.innerHTML="you: "+userscore+" | computer: "+compscore;
+        }
+            let fn3=()=>{
+            let comp=Math.floor(Math.random()*3);
+            if(comp==0){
+                res.innerHTML=("Computer choose stone,comp is won");
+                compscore++
+            }
+            else if(comp==1){
+                res.innerHTML=("Computer choose paper,you won");
+                userscore++;
+            }
+            else{
+                res.innerHTML=("Computer choose scissor,match is draw");
+            }
+            point.innerHTML="you: "+userscore+" | computer: "+compscore;
+        }
+        
+        
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        body{
+            background-color: black;
+            margin-left:1rem;
+            overflow-x: hidden;
+        }
+        #app-name{
+            text-align: center;
+            color:white;
+            font-size: 1.5rem;
+            margin-block:1.5rem;
+            font-weight: 600;
+        }
+        #title,
+        #amt{
+            height:2.5rem;
+            width:16rem;
+            background-color: black;
+            border-color: white;
+            color:white;
+            border-radius: .5rem;
+            margin-block:1rem;
+        }
+        label{
+        font-size: 1.3rem;
+        color:white;
+        margin-block:1.5rem;
+        }
+        @media(max-width:500px){
+            .rdobtn{
+                display: flex;
+                flex-direction: column;
+            }
+            #lbl1,
+            #lbl2{
+            margin-block:.1rem;
+       }
+
+        }
+        #lbl1{
+            display: flex;
+            gap:6rem;
+        }
+        #lbl2{
+            display: flex;
+            gap:6rem;
+        }
+        .rdobtn{
+            color:white;
+            margin-block:1rem;
+            display: flex;
+            justify-content: center;
+            gap:5rem;
+        }
+        input[type="radio"]{
+        transform: scale(2.5);
+        margin-right: 8px;
+        }
+        #btn1,
+        #btn2,
+        #btn3,
+        #btn4,
+        #btn5{
+            height:40px;
+            width:130px;
+            border-color:white;
+            color:white;
+            background-color: black;
+        }
+        #hr1{
+            height:5px;
+            width:100vw;
+            background-color: white;
+            margin-block:1rem;
+        }
+        .res1 p{
+            color:white;
+            margin-block:1rem;
+            font-weight: bold;
+        }
+        #bal{
+            font-size: 2rem;
+        }
+        #inc
+        #exs{
+            font-size: 1.2rem;
+        }
+        #his{
+            color:white;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-block:1rem;
+        }
+        .btn-sct{
+            display: flex;
+            gap:1rem;
+        }
+        .btn-sct button
+        #btn5{
+            height:30px;
+            width:70px;
+            border-color:white;
+            color:white;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <p id="app-name">EXPENSE TRACKER</p>
+    <input type="text" id="title" placeholder="Enter title"><br>
+    <input type="number" id="amt" placeholder="Enter amount"><br>
+    <div class="rdobtn">
+    <label id="lbl1">
+    <input type="radio" name="rdo" id="icm">income
+    </label>
+    <label id="lbl2">
+    <input type="radio" name="rdo" id="exp">expense
+    </label>
+    </div>
+    <button id="btn1">Add transaction</button><br>
+    <hr id="hr1">
+    <div class="res1">
+    <p id="bal">Balance : Rs</p>
+    <p id="inc">Income : Rs</p>
+    <p id="exs">Expense : Rs</p>
+    </div>
+    <hr id="hr2">
+    <p id="his">History</p>
+    <div id="his-inr"></div>
+    <hr id="hr1">
+    <div class="btn-sct"> 
+    <button id="btn2">All</button>
+    <button id="btn3">Income</button>
+    <button id="btn4">Expense</button>
+    </div>
+    <hr id="hr1">
+    <button id="btn5">clear all</button>  
+</body>
+<script>
+    let balance=0;
+    let income=0;
+    let expense=0;
+    let func=()=>{
+            balance=income-expense;
+            document.getElementById("bal").innerText=("Balance : Rs "+balance);
+            document.getElementById("inc").innerText=("income : Rs "+income);
+            document.getElementById("exs").innerText=("expense : Rs "+expense);
+            }
+    document.getElementById("btn1").addEventListener("click",()=>{
+        let ttl=document.getElementById("title").value;
+        let amtval=Number(document.getElementById("amt").value);
+        if(ttl==""|| amtval==""){
+                alert("enter your title and amount");
+                return;
+            }
+        let check1=document.getElementById("icm")
+        let check2=document.getElementById("exp")
+        if(!check1.checked && !check2.checked){
+            alert("choose income or expense");
+                return;
+        }
+        let rdo1=document.getElementById("icm");
+        let rdo2=document.getElementById("exp");
+        if(rdo1.checked){
+        income=income+amtval
+        func();
+        }
+        else{
+        expense=expense+amtval
+        func();
+        }
+        let val1=document.getElementById("title").value;
+        let val2=document.getElementById("amt").value;
+        let div1=document.createElement('div')
+        div1.style.display="flex";
+        div1.style.gap="1rem";
+        div1.style.marginBlock="1.5rem";
+        let span1=document.createElement('span')
+        if(rdo1.checked){
+        span1.style.color="blue";
+        }
+        else{
+            span1.style.color="red";
+        }
+        let btn1=document.createElement('button')
+        btn1.innerText="edit";
+        btn1.style.color="white";
+        btn1.style.backgroundColor="green";
+        btn1.style.height="20px";
+        btn1.style.width="60px";
+        btn1.style.borderRadius="10px"
+        btn1.style.border="0";
+        let btn2=document.createElement('button')
+        btn2.innerText="delete";
+        btn2.style.color="white";
+        btn2.style.backgroundColor="red";
+        btn2.style.height="20px";
+        btn2.style.width="60px";
+        btn2.style.borderRadius="10px"
+        btn2.style.border="0";
+        if(rdo1.checked){
+            span1.innerText=val1+" Rs"+val2
+        }
+        else{
+            span1.innerText=val1+" Rs-"+val2
+        }
+        div1.appendChild(span1)
+        div1.appendChild(btn1)
+        div1.appendChild(btn2)
+        document.getElementById("his-inr").appendChild(div1)
+        if(rdo1.checked){
+                div1.classList.add("inco")
+            }
+            else if(rdo2.checked){
+                div1.classList.add("expe")
+
+            }
+        document.getElementById("title").value="";
+        document.getElementById("amt").value="";
+        rdo1.checked = false;
+        rdo2.checked = false;
+        btn1.addEventListener("click",()=>{
+            let oldamt=val2;
+            let oldtype;
+            if(span1.style.color=="blue"){
+                oldtype="income"
+            }
+            else if(span1.style.color=="red"){
+                oldtype="expense"
+            }
+            let newttl=prompt("enter new title name");
+            let newamo=Number(prompt("enter new amount"));
+            let newtype=prompt("income or expense");
+            if(oldtype=="income"){
+                income=income-oldamt;
+            }
+            else if(oldtype=="expense"){
+                expense=expense-oldamt;
+            }
+            if(newtype=="income"){
+                income=income+newamo;
+            }
+            else if(newtype=="expense"){
+                expense=expense+newamo;
+            }
+            func();
+            span1.innerText=newttl+" Rs "+newamo;
+            div1.classList.remove("inco");
+            div1.classList.remove("expe");
+
+            if(newtype=="income"){
+            div1.classList.add("inco");
+            span1.style.color="blue";
+            }
+            else{
+            div1.classList.add("expe");
+            span1.style.color="red";
+            }
+            val2 = newamo; 
+        })
+        btn2.addEventListener("click",()=>{
+            let oldamt=val2;
+            let oldtype;
+            if(span1.style.color=="blue"){
+                oldtype="income";
+                income=income-oldamt;
+                balance=income-expense;
+            }
+            else if(span1.style.color=="red"){
+                oldtype="expense";
+                expense=expense-oldamt;
+                balance=income-expense;
+            }
+            func();
+            div1.remove();
+            let emp=document.getElementById("his-inr");
+            if(emp.children.length===0){
+                balance=0;
+                income=0;
+                expense=0;
+                func();
+            }   
+        })
+    })
+     document.getElementById("btn2").addEventListener("click",()=>{
+            let fil1=document.querySelectorAll("#his-inr div")
+            fil1.forEach((item1)=>{
+                document.getElementById("his-inr").appendChild(item1)
+                item1.style.display="flex"; 
+            })
+            })
+            document.getElementById("btn3").addEventListener("click",()=>{
+            let fil1=document.querySelectorAll("#his-inr div")
+            fil1.forEach((item1)=>{
+                document.getElementById("his-inr").appendChild(item1)
+                item1.style.display="none";  
+            })
+            let fil2=document.querySelectorAll(".inco")
+            fil2.forEach((item2)=>{
+                document.getElementById("his-inr").appendChild(item2)
+                item2.style.display="flex"; 
+            })
+            })
+            document.getElementById("btn4").addEventListener("click",()=>{
+            let fil1=document.querySelectorAll("#his-inr div")
+            fil1.forEach((item1)=>{
+                document.getElementById("his-inr").appendChild(item1)
+                item1.style.display="none"; 
+            })
+            let fil4=document.querySelectorAll(".expe")
+            fil4.forEach((item3)=>{
+                document.getElementById("his-inr").appendChild(item3)
+                item3.style.display="flex";
+            })
+            })
+            document.getElementById("btn5").addEventListener("click",()=>{
+                let last=document.querySelectorAll("#his-inr div")
+                last.forEach((item)=>{
+                    item.remove();
+                    emp=document.getElementById("his-inr");
+                    if(emp.children.length===0){
+                    balance=0;
+                    income=0;
+                    expense=0;
+                    func();
+            } 
+                })
+            })
+</script>
+</html>

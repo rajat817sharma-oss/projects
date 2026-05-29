@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            font-family: sans-serif;
+            background-color: black;;
+        }
+        #container{
+            text-align: center;
+        }
+        #container h2{
+            color:white;
+        }
+        #players{
+            display: flex;
+            gap:2rem;
+            justify-content: center;
+            color:white
+        }
+        #players div img{
+            height:auto;
+            width:100%;
+            max-width:140px;
+        }
+        #buttons{
+            display: flex;
+            justify-content: center;
+            gap:1rem; 
+        }
+        #buttons button{
+            height:50px;
+            width:150px;
+        }
+        #btn1{
+            background-color:#7bf1a8;
+            border:none;
+            font-size: 19px;
+        }
+        #btn2{
+            background-color: #00c950;
+            border:none;
+            font-size: 19px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h2 id="res">let's play</h2>
+        <div id="players">
+            <div id="player1">
+                <img src="dice1.png" id="image1">
+                <p id="plyr1">Player 1</p>
+            </div>
+            <div id="player2">
+                <img src="dice2.png" id="image2">
+                <p id="plyr2">Player 2</p>
+            </div>
+        </div>
+        <div id="buttons">
+            <button id="btn1" onclick="roll()">Roll the dice</button>
+            <button id="btn2" onclick="edit()">Edit the name</button>
+        </div>
+    </div>
+    <script>
+        let sum1=0;
+        let sum2=0;
+        let turns=0;
+        let roll=()=>{
+            let res=document.getElementById("res");
+            let plyrnam1=document.getElementById("plyr1").innerHTML;
+            let plyrnam2=document.getElementById("plyr2").innerHTML;
+            if(turns%2==0){
+                let number1=Math.floor(Math.random()*6)+1;
+                let plyr1=document.getElementById("image1");
+                plyr1.src="dice"+number1+".png";
+                sum1=sum1+number1;
+                turns++;
+            }
+            else{
+                let number2=Math.floor(Math.random()*6)+1;
+                let plyr2=document.getElementById("image2");
+                plyr2.src="dice"+number2+".png";
+                sum2=sum2+number2;
+                turns++;
+            } 
+                if(turns>=10){
+                    if(sum1>sum2){
+                    res.innerHTML=plyrnam1+" is winner";
+                }
+                    else if(sum1<sum2){
+                    res.innerHTML=plyrnam2+" is winner";
+                }
+                    else{
+                    res.innerHTML="match is drawn";
+                }
+                    turns=0;
+                    sum1=0;
+                    sum2=0;
+                }
+        }
+        let edit=()=>{
+            let prom1=prompt("enter player 1 name");
+            let prom2=prompt("enter player 2 name");
+            document.getElementById("plyr1").innerHTML=prom1;
+            document.getElementById("plyr2").innerHTML=prom2;
+        }
+    </script>
+</body>
+</html>
