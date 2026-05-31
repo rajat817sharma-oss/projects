@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notes App</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:sans-serif;
+    }
+
+    body{
+      background:#111;
+      color:white;
+      padding:20px;
+    }
+
+    h1{
+      text-align:center;
+      margin-bottom:25px;
+    }
+
+    .top-box{
+      width:100%;
+      max-width:700px;
+      margin:auto;
+    }
+
+    input, textarea{
+      width:100%;
+      padding:12px;
+      margin-bottom:15px;
+      border:none;
+      outline:none;
+      border-radius:10px;
+      background:#222;
+      color:white;
+      font-size:16px;
+    }
+
+    textarea{
+      resize:none;
+      height:120px;
+    }
+
+    button{
+      border:none;
+      cursor:pointer;
+    }
+
+    #addBtn{
+      width:100%;
+      padding:12px;
+      background:limegreen;
+      color:white;
+      font-size:16px;
+      border-radius:10px;
+      margin-bottom:20px;
+    }
+
+    #search{
+      margin-top:10px;
+    }
+
+    #notesContainer{
+      margin-top:30px;
+
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:20px;
+    }
+
+    .note{
+      background:#1e1e1e;
+      padding:15px;
+      border-radius:15px;
+      border:1px solid #333;
+    }
+
+    .note h2{
+      margin-bottom:10px;
+      word-wrap:break-word;
+    }
+
+    .note p{
+      color:#ccc;
+      margin-bottom:15px;
+      word-wrap:break-word;
+    }
+
+    .btns{
+      display:flex;
+      gap:10px;
+    }
+
+    .editBtn{
+      flex:1;
+      padding:8px;
+      background:orange;
+      color:white;
+      border-radius:8px;
+    }
+
+    .deleteBtn{
+      flex:1;
+      padding:8px;
+      background:red;
+      color:white;
+      border-radius:8px;
+    }
+
+    .empty{
+      text-align:center;
+      margin-top:30px;
+      color:gray;
+      font-size:20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>NOTES APP</h1>
+
+  <div class="top-box">
+
+    <input type="text" id="title" placeholder="Enter note title">
+
+    <textarea id="text" placeholder="Write your note"></textarea>
+
+    <button id="addBtn">Add Note</button>
+
+    <input type="text" id="search" placeholder="Search note...">
+
+  </div>
+
+  <div id="notesContainer"></div>
+
+<script>
+
+  let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+  let titleInput = document.getElementById("title");
+  let textInput = document.getElementById("text");
+  let addBtn = document.getElementById("addBtn");
+  let notesContainer = document.getElementById("notesContainer");
+  let searchInput = document.getElementById("search");
+
+
+
+  // SAVE LOCAL STORAGE
+  function saveNotes(){
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }
+
+
+
+  // RENDER NOTES
+  function renderNotes(arr){
+
+    notesContainer.innerHTML = "";
+
+    if(arr.length === 0){
+      notesContainer.innerHTML = `
+        <p class="empty">No Notes Found</p>
+      `;
+      return;
+    }
+
+    arr.forEach((note,index)=>{
+
+      let noteDiv = document.createElement("div");
+      noteDiv.classList.add("note");
+
+      noteDiv.innerHTML = `
+        <h2>${note.title}</h2>
+        <p>${note.text}</p>
+
+        <div class="btns">
+          <button class="editBtn">Edit</button>
+          <button class="deleteBtn">Delete</button>
+        </div>
+      `;
+
+
+
+
+
+      // DELETE
+      let deleteBtn = noteDiv.querySelector(".deleteBtn");
+
+      deleteBtn.addEventListener("click",()=>{
+
+        notes.splice(index,1);
+
+        saveNotes();
+
+        renderNotes(notes);
+
+      });
+
+
+
+
+
+
+      // EDIT
+      let editBtn = noteDiv.querySelector(".editBtn");
+
+      editBtn.addEventListener("click",()=>{
+
+        let newTitle = prompt("Enter new title",note.title);
+
+        let newText = prompt("Enter new text",note.text);
+
+        if(newTitle === null || newText === null){
+          return;
+        }
+
+        notes[index].title = newTitle;
+
+        notes[index].text = newText;
+
+        saveNotes();
+
+        renderNotes(notes);
+
+      });
+
+
+
+
+      notesContainer.appendChild(noteDiv);
+
+    });
+
+  }
+
+
+
+
+  // ADD NOTE
+  addBtn.addEventListener("click",()=>{
+
+    let titleValue = titleInput.value.trim();
+
+    let textValue = textInput.value.trim();
+
+    if(titleValue === "" || textValue === ""){
+      alert("Fill all fields");
+      return;
+    }
+
+    let noteObj = {
+      title:titleValue,
+      text:textValue
+    };
+
+    notes.push(noteObj);
+
+    saveNotes();
+
+    renderNotes(notes);
+
+    titleInput.value = "";
+    textInput.value = "";
+
+  });
+
+
+
+
+
+  // SEARCH
+  searchInput.addEventListener("input",()=>{
+
+    let searchValue = searchInput.value.toLowerCase();
+
+    let filteredNotes = notes.filter((item)=>{
+
+      return (
+        item.title.toLowerCase().includes(searchValue)
+      );
+
+    });
+
+    renderNotes(filteredNotes);
+
+  });
+
+
+
+
+  renderNotes(notes);
+
+</script>
+
+</body>
+</html>
