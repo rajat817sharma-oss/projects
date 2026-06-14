@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            font-family: sans-serif;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: #f4f4f4;
+        }
+        .app-cont{
+            height:100vh;
+            width:100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #app-cont-child{
+            height:450px;
+            width:430px;
+            border-radius: 20px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+        #app-name{
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            padding-block: 1rem;
+        }
+        input{
+            height:2.5rem;
+            width:370px;
+        }
+        .form-div{
+            display: flex;
+            flex-direction: column;
+            gap:1rem;
+        }
+        #slct-div{
+            display: flex;
+            flex-direction: row;
+            gap:3rem;
+        }
+        select{
+            height:2.5rem;
+            width:10rem;
+        }
+        #to-p,
+        #from-p{
+            padding-block:.5rem;
+        }
+        #btn-sct{
+            display: flex;
+            flex-direction: column;
+            gap:1rem;
+        }
+        #btn2,
+        #btn1{
+            height:50px;
+            width:380px;
+            background-color: #008000;
+            border:0;
+            color:white;
+            font-size: 1.2rem;
+            border-radius: 12px;
+        }
+        #btn2{
+            background-color: #4169e1;
+        }
+        #res-p{
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-cont">
+        <div id="app-cont-child">
+        <p id="app-name">Currency Converter</p>
+
+        <form>
+        <div class="form-div"> 
+            <div id="ipt-div"> 
+            <p id="ipt1-name">Amount</p>
+            <input type="number" value="1" id="ipt1">
+            </div>
+
+            <div id="slct-div">
+                <div class="from-div">
+                    <p id="from-p">From</p>
+
+                    <div id="from-slct">
+                        <select id="from">
+                            <option>USD</option>
+                            <OPTION>INR</OPTION>
+                            <OPTION>EUR</OPTION>
+                            <OPTION>GBP</OPTION>
+                            <OPTION>JPY</OPTION>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="to-div"> 
+                    <p id="to-p">To</p>
+                    <div id="to-slct">
+                        <select id="to">
+                            <option>USD</option>
+                            <OPTION>INR</OPTION>
+                            <OPTION>EUR</OPTION>
+                            <OPTION>GBP</OPTION>
+                            <OPTION>JPY</OPTION>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="btn-sct"> 
+            <button id="btn1">Swap Currency</button>
+            <button id="btn2">Convert</button>
+            <p id="res-p">Result Here</p>
+            </div>
+        </div>
+        </form>
+        </div>
+    </div>
+</body>
+<script>
+    let input=document.querySelector("#ipt1")
+    let from=document.querySelector("#from")
+    let to=document.querySelector("#to")
+    let btn1=document.querySelector("#btn1")
+    let btn2=document.querySelector("#btn2")
+    let result=document.querySelector("#res-p")
+    btn2.addEventListener("click",async(e)=>{
+        e.preventDefault();
+        let no=Number(input.value);
+        if(no==""){
+            alert("please enter data first");
+            return;
+        }
+        let fromcurr=from.value;
+        let tocurr=to.value;
+        try{
+            let response=await fetch(`https://api.exchangerate-api.com/v4/latest/${fromcurr}`);
+            let data=await response.json();
+            let rate=data.rates[tocurr];
+            let res=(no*rate).toFixed(2);
+            result.innerHTML=`${no} ${fromcurr} = ${res} ${tocurr}`;
+        }
+        catch(error){
+            result.innerHTML="Something went wrong";
+            console.log(error);
+        }
+    })
+    btn1.addEventListener("click",(e)=>{
+        e.preventDefault();
+            let temp;
+            temp=from.value;
+            from.value=to.value;
+            to.value=temp;
+        })
+</script>
+</html>
