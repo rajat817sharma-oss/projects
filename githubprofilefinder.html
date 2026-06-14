@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            font-family: sans-serif;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: #f4f4f4;
+        }
+        .git-body{
+            height:100vh;
+            width:100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .gitname{
+            min-height:150px;
+            width:450px;
+            background-color: white;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap:1rem;
+        }
+        #head p{
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top:2rem;
+        }
+        #input-tags{
+            display: flex;
+            gap:.6rem;
+        }
+        #input-tags input{
+            height:50px;
+            width:320px;
+            font-size: 1.1rem;
+            padding-left:.8rem;
+        }
+        #input-tags button{
+            height:50px;
+            width:80px;
+            background-color: #4169e1;
+            border: 0;
+            color:white;
+        }
+        #info{
+            width:100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap:.5rem;
+            margin-block:1.5rem;
+        }
+        #info img{
+            height:100px;
+            width:100px;
+            border-radius: 50px;
+        }
+        .stats{
+            display: flex;
+            gap:6rem;
+        }
+        .stats div{
+            text-align: center;
+        }
+        #msg{
+            color:red;
+        }
+
+    </style>
+</head>
+<body>
+<div class="git-body"> 
+    <div class="gitname">
+        <div id="head"> 
+        <p>Github Profile Finder</p>
+        </div>
+        <div id="input-tags"> 
+        <input type="text" placeholder="Enter github Username" id="user">
+        <button id="btn">Search</button>
+        </div>
+        <p id="msg"></p>
+        <div id="result"> </div>
+    </div>
+</div>
+</body>
+<script>
+    let username=document.querySelector("#user");
+    let mess=document.querySelector("#msg");
+    let res=document.querySelector("#result");
+    let button=document.querySelector("#btn");
+    button.addEventListener("click",async()=>{
+        let user=username.value.trim();
+        if(user==""){
+            mess.innerHTML="please enter Username first";
+            res.innerHTML="";
+            return;
+        }
+    try{
+        mess.innerHTML="";
+        let response=await fetch(`https://api.github.com/users/${user}`)
+        if(!response.ok){
+            alert("Username not found,Try another Username");
+            res.innerHTML="";
+            username.value="";
+            return;
+        }
+        let data=await response.json();
+        res.innerHTML=`
+        <div id=info>
+        <img src="${data.avatar_url}" alt="Profile Image">
+        <h2>${data.name || "No Name"}</h2>
+        <p>${data.login}</p>
+        <p>${data.bio || "No bio available"}</p>
+        <div class=stats>
+            <div>
+                <h3>${data.followers}</h3>
+                <p>Followers</p>
+            </div>
+            <div>
+                <h3>${data.following}</h3>
+                <p>Following</p>
+            </div>
+            <div>
+                <h3>${data.public_repos}</h3>
+                <p>Repos</p>
+            </div>
+        </div>
+        </div>
+        `
+    }
+    catch(error){
+        mess.innerHTML="User not found";
+        console.log(error);
+    }
+    })
+
+</script>
+</html>
