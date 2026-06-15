@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        .app-bdr{
+            height:100vh;
+            width:100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+        #app-inner-prt{
+            min-height:290px;
+            width:450px;
+            border-radius: 20px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-block:2rem;
+            gap:2rem;
+        }
+        #app-name{
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        #input-prt{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap:1rem;
+        }
+        #country{
+            height:3rem;
+            width:350px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            color:black;
+            font-weight: 600;
+            padding-left:1rem;
+            border: 3px solid black;
+        }
+        #btn{
+            height:60px;
+            width:250px;
+            color:white;
+            background-color: blue;
+            border-radius: 10px;
+            border:0;
+            font-size: 1.5rem;
+        }
+        #not-found{
+            text-align: center;
+            font-size: 1.2rem;
+            color:red;
+        }
+        #output{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #output p{
+            font-weight: 300;
+            font-size: 1.5rem;
+        }
+        #same{
+            font-weight: bold;
+            font-size: 1.5rem;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="app-bdr">
+        <div id="app-inner-prt">
+            <p id="app-name">Weather App</p>
+            <div id="input-prt">
+                <input type="text" id="country" placeholder="Enter Country or city name">
+                <button id="btn">Get Weather</button>
+                <p id="not-found"></p>
+                <div id="output">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    let not=document.querySelector("#not-found")
+    let out=document.querySelector("#output")
+    let ipt=document.querySelector("#country")
+    let btn=document.querySelector("#btn")
+    btn.addEventListener("click",async()=>{
+        try{
+        let inpu=ipt.value.trim();
+        if(inpu==""){
+            alert("please enter data");
+            out.innerHTML="";
+            not.innerHTML="";
+            return;
+        }
+        not.innerHTML="";
+        let response=await fetch(`https://api.weatherapi.com/v1/current.json?key=9a967e19fd384cd692a133218261506&q=${inpu}&aqi=yes`);
+        if(!response.ok){
+            not.innerHTML="Enter valid data";
+            out.innerHTML="";
+            return;
+        }
+        let data=await response.json();
+        out.innerHTML=`
+        <p><span id=same>Location:</span> ${data.location.name}, ${data.location.country}</p>
+        <p><span id=same>Temperature:</span> ${data.current.temp_c}</p>
+        <p><span id=same>Condition:</span> ${data.current.condition.text}</p>
+        `
+    }
+    catch(error){
+        out.innerHTML="";
+        not.innerHTML="Something went wrong";
+        console.log(error);
+    }
+    })
+</script>
+</html>
