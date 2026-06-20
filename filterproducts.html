@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        body{
+            overflow: hidden;
+        }
+        .body-bdr{
+            height:100vh;
+            width:100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+            align-items:flex-start;
+            overflow-y:auto; 
+        }
+        #filter-bdr{
+            min-height:80%;
+            width:70%;
+            border-radius: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            margin-block:1rem;
+            overflow-y:auto;
+        }
+        #app-name{
+            font-size: 2rem;
+            font-weight: bold;
+            margin-block:2rem;
+        }
+        #search-bar{
+            height:50px;
+            width:55%;
+            border:1px solid black;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            border-radius: 30px;
+            padding-inline: 1rem;
+            border:3px solid #aaa;
+        }
+        #svg1{
+            font-size: 20px;
+        }
+        #svg2{
+            font-size: 30px;
+        }
+        #user-input{
+            height:80%;
+            width:90%;
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding-left:1rem;
+            border:none;
+            outline: none;
+        }
+        #user-input:focus{
+            border:none;
+            outline:none;
+        }
+        #resultant{
+            height:60%;
+            width:100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap:2rem;
+            margin-block:2rem;
+        }
+        #row1,
+        #row2{
+            height:40%;
+            width:100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap:1rem;
+        }
+        #prod1,
+        #prod2,
+        #prod3,
+        #prod4,
+        #prod5,
+        #prod6{
+            min-height: 100px;
+            width:350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap:.5rem;
+            padding-block:.5rem;
+            padding-inline:2rem;
+            border:2px solid #eee;
+        }
+        #row1 img,
+        #row2 img{
+            height:180px;
+            width:180px;
+            border:0;
+        }
+        .back-name{
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .back-name2{
+            font-weight: bold;
+            color:#999;
+        }
+        .back-price{
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        .bag-cart{
+            height:30px;
+            width:120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap:.2rem;
+            background-color: yellow;
+            border-radius: 10px;
+            border:0;
+            font-weight: 600;
+            font-size: .9rem;
+        }
+        @media (max-width:450px){
+            #filter-bdr{
+            width:100%;
+            border-radius: 50px;
+        }
+        #search-bar{
+            width:90%;
+        }
+        #row1,
+        #row2{
+            display: flex;
+            flex-direction: column;
+        }
+        #user-input{
+            font-size: 1.1em;
+        }
+    }
+    @media (max-width:1340px){
+        #filter-bdr{
+            width:90%;
+        }
+        #search-bar{
+            width:60%;
+        }
+        #row1,
+        #row2{
+            min-height:40%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+    @media (max-width:1600px){
+        #search-bar{
+            width:90%;
+        }
+        #filter-bdr{
+            width:90%;
+        }
+        #row1,
+        #row2{
+            min-height:40%;
+            width:100%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="body-bdr">
+        <div id="filter-bdr">
+            <p id="app-name">Filter Products</p>
+            <div id="search-bar">
+                <svg  id="svg1" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+	<path d="M0 0h24v24H0z" fill="none" />
+	<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m21 21l-4-4m2-6a8 8 0 1 1-16 0a8 8 0 0 1 16 0" />
+</svg>
+            <input type="text" id="user-input" 
+placeholder="Enter product name">
+<svg id="svg2" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+	<path d="M0 0h24v24H0z" fill="none" />
+	<path fill="currentColor" d="M16.066 8.995a.75.75 0 1 0-1.06-1.061L12 10.939L8.995 7.934a.75.75 0 1 0-1.06 1.06L10.938 12l-3.005 3.005a.75.75 0 0 0 1.06 1.06L12 13.06l3.005 3.006a.75.75 0 0 0 1.06-1.06L13.062 12z" />
+</svg>
+</div>
+
+<div id="resultant">
+    <div id="row1">
+        <div id="prod1">
+            <img src="https://www.consortium.co.uk/media/catalog/product/cache/1/image/040ec09b1e35df139433887a97daa66f/p/a/patagonia-refugio-day-26l-backpack-classic-navy-47913-cny_0000_1.jpg" id="img1">
+            <p class="back-name" id="prod-name">Classic Navy Backpack</p>
+            <p class="back-name2" id="prod-info">Water resistant febric</p>
+            <p class="back-price" id="prod-price">$49.99</p>
+            <button class="bag-cart">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
+	<path d="M0 0h48v48H0z" fill="none" />
+	<defs>
+		<mask id="SVGIVU7Qcgm">
+			<g fill="none">
+				<path fill="#555" d="M39 32H13L8 12h36z" />
+				<path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20z" />
+				<circle cx="13" cy="39" r="3" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+				<circle cx="39" cy="39" r="3" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+			</g>
+		</mask>
+	</defs>
+	<path fill="currentColor" d="M0 0h48v48H0z" mask="url(#SVGIVU7Qcgm)" />
+</svg>
+<span>Add to Cart</span>
+            </button>
+        </div>
+        <div id="prod2">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.B4eTrlqwvETsxR0Xii57SQHaHa?pid=Api&P=0&h=180"id="img2">
+            <p class="back-name" id="prod-name2">Classic Watch</p>
+            <p class="back-name2" id="prod-info2">Water resistant febric</p>
+            <p class="back-price" id="prod-price2">$49.99</p>
+            <button class="bag-cart">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
+	<path d="M0 0h48v48H0z" fill="none" />
+	<defs>
+		<mask id="SVGIVU7Qcgm">
+			<g fill="none">
+				<path fill="#555" d="M39 32H13L8 12h36z" />
+				<path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20z" />
+				<circle cx="13" cy="39" r="3" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+				<circle cx="39" cy="39" r="3" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+			</g>
+		</mask>
+	</defs>
+	<path fill="currentColor" d="M0 0h48v48H0z" mask="url(#SVGIVU7Qcgm)" />
+</svg>
+<span>Add to Cart</span>
+            </button>
+        </div>
+        <div id="prod3">
+            <img src="https://laptopmedia.com/wp-content/uploads/2023/05/2-56-e1685459004151.jpg"id="img3">
+            <p class="back-name" id="prod-name3">Classic Laptop</p>
+            <p class="back-name2" id="prod-info3">Water resistant febric</p>
+            <p class="back-price" id="prod-price3">$49.99</p>
+            <button class="bag-cart">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
+	<path d="M0 0h48v48H0z" fill="none" />
+	<defs>
+		<mask id="SVGIVU7Qcgm">
+			<g fill="none">
+				<path fill="#555" d="M39 32H13L8 12h36z" />
+				<path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20z" />
+				<circle cx="13" cy="39" r="3" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+				<circle cx="39" cy="39" r="3" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+			</g>
+		</mask>
+	</defs>
+	<path fill="currentColor" d="M0 0h48v48H0z" mask="url(#SVGIVU7Qcgm)" />
+</svg>
+<span>Add to Cart</span>
+            </button>
+        </div>
+    </div>
+    <div id="row2">
+        <div id="prod4">
+            <img src="https://www.mobiledokan.com/media/apple-iphone-17-teal-official-image.webp"id="img4">
+            <p class="back-name" id="prod-name4">Classic Iphone</p>
+            <p class="back-name2" id="prod-info4">Water resistant febric</p>
+            <p class="back-price" id="prod-price4">$49.99</p>
+            <button class="bag-cart">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
+	<path d="M0 0h48v48H0z" fill="none" />
+	<defs>
+		<mask id="SVGIVU7Qcgm">
+			<g fill="none">
+				<path fill="#555" d="M39 32H13L8 12h36z" />
+				<path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20z" />
+				<circle cx="13" cy="39" r="3" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+				<circle cx="39" cy="39" r="3" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+			</g>
+		</mask>
+	</defs>
+	<path fill="currentColor" d="M0 0h48v48H0z" mask="url(#SVGIVU7Qcgm)" />
+</svg>
+<span>Add to Cart</span>
+            </button>
+        </div>
+        <div id="prod5">
+            <img src="https://m.media-amazon.com/images/I/51XIgwno6TL.jpg"id="img5">
+            <p class="back-name" id="prod-name5">Classic Bluetooth</p>
+            <p class="back-name2" id="prod-info5">Water resistant febric</p>
+            <p class="back-price" id="prod-price5">$49.99</p>
+            <button class="bag-cart">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
+	<path d="M0 0h48v48H0z" fill="none" />
+	<defs>
+		<mask id="SVGIVU7Qcgm">
+			<g fill="none">
+				<path fill="#555" d="M39 32H13L8 12h36z" />
+				<path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20z" />
+				<circle cx="13" cy="39" r="3" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+				<circle cx="39" cy="39" r="3" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+			</g>
+		</mask>
+	</defs>
+	<path fill="currentColor" d="M0 0h48v48H0z" mask="url(#SVGIVU7Qcgm)" />
+</svg>
+<span>Add to Cart</span>
+            </button>
+        </div>
+        <div id="prod6">
+            <img src="https://m.media-amazon.com/images/I/61Mk3YqYHpL.jpg"id="img6">
+            <p class="back-name" id="prod-name6">Classic Gaming mouse</p>
+            <p class="back-name2" id="prod-info6">Water resistant febric</p>
+            <p class="back-price" id="prod-price6">$49.99</p>
+            <button class="bag-cart">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
+	<path d="M0 0h48v48H0z" fill="none" />
+	<defs>
+		<mask id="SVGIVU7Qcgm">
+			<g fill="none">
+				<path fill="#555" d="M39 32H13L8 12h36z" />
+				<path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20z" />
+				<circle cx="13" cy="39" r="3" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+				<circle cx="39" cy="39" r="3" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+			</g>
+		</mask>
+	</defs>
+	<path fill="currentColor" d="M0 0h48v48H0z" mask="url(#SVGIVU7Qcgm)" />
+</svg>
+<span>Add to Cart</span>
+            </button>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+</body>
+<script>
+    let ipt=document.querySelector("#user-input")
+    let clicker=document.querySelector("#svg1")
+    let cross=document.querySelector("#svg2")
+    let image1=document.querySelector("#img1")
+    let image2=document.querySelector("#img2")
+    let image3=document.querySelector("#img3")
+    let image4=document.querySelector("#img4")
+    let image5=document.querySelector("#img5")
+    let image6=document.querySelector("#img6")
+
+    let prodname1=document.querySelector("#prod-name")
+    let prodname2=document.querySelector("#prod-name2")
+    let prodname3=document.querySelector("#prod-name3")
+    let prodname4=document.querySelector("#prod-name4")
+    let prodname5=document.querySelector("#prod-name5")
+    let prodname6=document.querySelector("#prod-name6")
+
+    let prodinfo1=document.querySelector("#prod-info")
+    let prodinfo2=document.querySelector("#prod-info2")
+    let prodinfo3=document.querySelector("#prod-info3")
+    let prodinfo4=document.querySelector("#prod-info4")
+    let prodinfo5=document.querySelector("#prod-info5")
+    let prodinfo6=document.querySelector("#prod-info6")
+
+    let prodprice1=document.querySelector("#prod-price")
+    let prodprice2=document.querySelector("#prod-price2")
+    let prodprice3=document.querySelector("#prod-price3")
+    let prodprice4=document.querySelector("#prod-price4")
+    let prodprice5=document.querySelector("#prod-price5")
+    let prodprice6=document.querySelector("#prod-price6")
+        async function fn(){
+    try{
+        let productname=ipt.value.trim();
+        if(productname==""){
+            alert("Enter product name");
+            return;
+        }
+        let response=await fetch(`https://real-time-amazon-data.p.rapidapi.com/search?query=${productname}&page=1&country=US&sort_by=RELEVANCE`,
+        {
+         method:"GET",
+         headers:{
+         "x-rapidapi-key":"8fc137156dmshe74a812c8f20f21p16e93bjsn422594c67a03",
+         "x-rapidapi-host":"real-time-amazon-data.p.rapidapi.com"
+        }
+    }
+        )
+        let data=await response.json();
+        if(data.data.products.length===0){
+            alert("No matching products found.");
+            ipt.value="";
+            return;
+        }
+        let images=[image1,image2,image3,image4,image5,image6];
+        let products=[prodname1,prodname2,prodname3,prodname4,prodname5,prodname6];
+        let infos=[prodinfo1,prodinfo2,prodinfo3,prodinfo4,prodinfo5,prodinfo6];
+        let price=[prodprice1,prodprice2,prodprice3,prodprice4,prodprice5,prodprice6];
+        for(let i=0;i<data.data.products.length && i<6;i++){
+            images[i].src=data.data.products[i].product_photo;
+            let title=data.data.products[i].product_title;
+            products[i].innerHTML=title.length>20? title.slice(0,21)+"...":title;
+            infos[i].innerHTML=data.data.products[i].sales_volume || "Amazon Product";
+            price[i].innerHTML=`${data.data.products[i].product_price}`;
+        }
+    }
+    catch(error){
+        alert("404 product not found");
+        console.log(error);
+    }
+}
+    cross.addEventListener("click",()=>{
+        ipt.value="";
+    })
+    clicker.addEventListener("click",fn)
+    ipt.addEventListener("keydown",(e)=>{
+        if(e.key==="Enter"){
+            fn();
+        }
+    })
+</script>
+</html>
