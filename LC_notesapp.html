@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        .body-bdr{
+            height:100vh;
+            width:100vw;
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            background-color: #f4f4f4;
+        }
+        .notes-bdr{
+            min-height: 50%;
+            width:40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: center;
+            margin-block:1rem;
+            padding-block:1rem;
+            gap:1rem;
+            background-color: white;
+        }
+        .notes-bdr p{
+            font-size: 2rem;
+            font-weight: 600;
+            margin-block:1rem;
+        }
+        #input-div{
+            width:100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap:1rem;
+        }
+        #input-div input{
+            width:90%;
+            border-radius: 8px;
+            border:2px solid #ccc;
+            height:3rem;
+            padding-left:1rem;
+            font-size:1rem;
+        }
+        #ipt3{
+            width:90%;
+            border-radius: 8px;
+            border:2px solid #ccc;
+            height:8rem;
+            padding-left:1rem;
+            font-size: 1rem;
+            padding-top:1rem;
+        }
+        button{
+            height:40px;
+            width:90%;
+            border-radius: 10px;
+            background-color: #008000;
+            border:0;
+            color:white;
+            font-size: 1rem;  
+        }
+        #result-div{
+            min-height:20%;
+            width:100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap:1rem;
+        }
+        #div1{
+            width:90%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap:.1rem;
+            padding-left:1rem;
+            padding-block:1rem;
+            border-radius: 10px;
+            background-color: #fff9c4;
+        }
+        #div1 p{
+            font-size: 1rem;
+        }
+        #div-btn{
+            display: flex;
+            gap:1rem;
+        }
+        .edit-btn,
+        .delete-btn{
+            height:40px;
+            width:80px;
+            border-radius: 8px;
+            color:white;
+        }
+        .edit-btn{
+            background-color: blue;
+        }
+        .delete-btn{
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="body-bdr">
+        <div class="notes-bdr">
+            <p>Notes App</p>
+            <div id="input-div"> 
+            <input type="text" id="ipt1" placeholder="Search Notes..."> 
+            <input type="text" id="ipt2" placeholder="Enter Title">
+            <textarea  id="ipt3" placeholder="Enter your Notes"></textarea>
+            </div>
+            <button id="btn1">Add Note</button>
+            <div id="result-div">
+
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    let searchinput=document.getElementById("ipt1")
+    let titleinput=document.getElementById("ipt2")
+    let notesinput=document.getElementById("ipt3")
+    let addbutton=document.getElementById("btn1")
+    let mydata=document.getElementById("result-div")
+    let editid=false;
+    let getdata=JSON.parse(localStorage.getItem("notes"))|| [];
+    printdata();
+    function save(){
+    localStorage.setItem("notes",JSON.stringify(getdata));
+}
+    function printdata(arr=getdata){
+        mydata.innerHTML="";
+        arr.forEach(singlediv=>{
+            mydata.innerHTML+=`
+            <div id=div1>
+                <p>${singlediv.title}</p>
+                <p>${singlediv.note}</p>
+                <div id=div-btn>
+                    <button class="edit-btn" data-id=${singlediv.id}>Edit</button>
+                    <button class="delete-btn" data-id=${singlediv.id}>Delete</button>
+                </div>
+            </div>
+            `
+        })
+    }
+    addbutton.addEventListener("click",()=>{
+        let title=titleinput.value.trim();
+        let note=notesinput.value.trim();
+        if(title===""|| note===""){
+            alert("enter all information")
+            return;
+        }
+        if(editid){
+            let singlediv=getdata.find(n=>n.id===editid)
+            singlediv.title=title;
+            singlediv.note=note;
+            editid=false;
+            addbutton.textContent="Add button";
+            }
+        else{
+            getdata.push({
+                id:Date.now(),
+                title,
+                note
+        })
+    }
+            save();
+            printdata();
+            titleinput.value="";
+            notesinput.value="";
+        })
+    mydata.addEventListener("click",(e)=>{
+        let id=Number(e.target.dataset.id);
+        if(e.target.classList.contains("delete-btn")){
+            getdata=getdata.filter(n=>n.id!==id)
+            save();
+            printdata();
+        }
+        if(e.target.classList.contains("edit-btn")){
+            let singlediv=getdata.find(n=>
+                n.id===id)
+                titleinput.value=singlediv.title;
+                notesinput.value=singlediv.note;
+                editid=id;
+                addbutton.textContent="Update Note";
+        }
+    })
+    searchinput.addEventListener("input",()=>{
+        let searchvalue=searchinput.value.toLowerCase();
+        let filtered=getdata.filter(n=>
+        n.title.toLowerCase().includes(searchvalue)||n.note.toLowerCase().includes(searchvalue)
+    )
+    printdata(filtered);
+    })
+</script>
+</html>
