@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        body{
+            height:100vh;
+            width:100vw;
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            background-color:#f4f4f4;
+            padding-block:2rem;
+        }
+
+        .container{
+            min-height:40%;
+            width:30%;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: center;
+            background-color: white;
+            padding-block:2rem;
+            gap:1rem;
+        }
+
+        .top-section{
+            height:100%;
+            width:100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap:.5rem;
+            margin-block:1rem;
+        }
+
+        #searchInput,
+        #todoInput,
+        #addBtn{
+            height:50px;
+            width:90%;
+            padding-inline:.5rem;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            border: 3px solid#ccc;
+        }
+
+        #addBtn{
+            background-color: green;
+            border:0;
+            color:white;
+        }
+
+        .filters{
+            display: flex;
+            gap:1rem;
+        }
+
+        .filters button{
+            height:40px;
+            width:160px;
+            border-radius: 10px;
+        }
+
+        #allBtn{
+            background-color: black;
+            color:white;
+            border:0;
+        }
+
+        #pendingBtn{
+            background-color: red;
+            color:white;
+            border:0;
+        }
+
+        #completeBtn{
+            background-color: green;
+            color:white;
+            border:0;
+        }
+
+        #todoContainer{
+            width:90%;
+            display: flex;
+            flex-direction: column;
+            gap:1rem;
+        }
+
+        .todo-div{
+            display: flex;
+            align-items: center;
+            gap:1rem;
+            padding-inline:1rem;    
+        }
+
+        #check-sct{
+            display: flex;
+            gap:.5rem;
+        }
+
+        #btn-sct{
+            display: flex;
+            gap:.5rem;
+        }
+
+        #dlt,
+        #edit{
+            height:40px;
+            width:90px;
+            border-radius: 10px;
+            color:white;
+            border:0;
+        }
+
+        #dlt{
+            background-color: red;
+        }
+
+        #edit{
+            background-color: green;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Todo App</h1>
+
+    <div class="top-section">
+
+        <input type="text" id="searchInput" placeholder="Search Todo"> 
+        <input type="text" id="todoInput" placeholder="Enter Todo">
+        <button id="addBtn"> Add Todo</button>
+
+    </div>
+
+    <div class="filters">
+
+        <button id="allBtn">All</button>
+
+        <button id="pendingBtn">Pending</button>
+
+        <button id="completeBtn">Completed</button>
+
+    </div>
+
+    <div id="todoContainer">
+
+    </div>
+
+</div>
+</body>
+
+<script>
+    
+    let searchinput=document.getElementById("searchInput")
+
+    let todoinput=document.getElementById("todoInput")
+
+    let addbtn=document.getElementById("addBtn")
+
+    let allbtn=document.getElementById("allBtn")
+
+    let pendingbtn=document.getElementById("pendingBtn")
+
+    let completebtn=document.getElementById("completeBtn")
+
+    let todocontainer=document.getElementById("todoContainer")
+
+    let editid=false;
+
+    let getdata=JSON.parse(localStorage.getItem("todos")) || [];
+
+    function savetodos(){
+
+           localStorage.setItem("todos",JSON.stringify(getdata))
+    }
+
+    rendertodos();
+
+    function rendertodos(arr=getdata){
+
+        todocontainer.innerHTML="";
+
+        arr.forEach(singletodo=>{
+
+            todocontainer.innerHTML+=`
+
+            <div class=todo-div>
+
+                <div id=check-sct>
+
+                    <input type=checkbox data-id="${singletodo.id}" ${singletodo.complete ? "checked" : ""} id=check>
+
+                    <p>${singletodo.userinput}</p> 
+
+                </div>
+
+                <div id=btn-sct>
+
+                    <button data-id=${singletodo.id}  class=dltbtn id=dlt>Delete</button>
+
+                    <button data-id=${singletodo.id} class=editbtn id=edit>Edit</button>
+
+                </div>
+
+            </div>
+            `
+        })
+    }
+    addbtn.addEventListener("click",()=>{
+
+        userinput=todoinput.value.trim();
+
+        if(userinput==""){
+
+            alert("Enter Todo Name")
+
+            return;
+        }
+        if(editid){
+            addbtn.textContent="Add todo";
+
+            let idname=getdata.find(n=>n.id==editid)
+
+            idname.userinput=userinput;
+
+            todoinput.value="";
+
+            editid=false;
+        }
+        else{
+
+            getdata.push({
+
+                id:Date.now(),
+
+                userinput,
+
+                complete:false,
+            })
+        }
+        savetodos();
+
+        rendertodos();
+
+        todoinput.value="";
+    })
+
+    todocontainer.addEventListener("click",(e)=>{
+
+        let clickid=Number(e.target.dataset.id)
+
+        let box=getdata.find(n=>n.id==clickid)
+
+        if(e.target.type=="checkbox"){
+
+            box.complete=true;
+
+            savetodos();
+
+            rendertodos();
+
+        }
+        if(e.target.classList.contains("dltbtn")){
+
+            getdata=getdata.filter(n=>n.id!==clickid)
+
+            savetodos();
+
+            rendertodos();
+
+        }
+
+        if(e.target.classList.contains("editbtn")){
+
+            addbtn.textContent="Update todo";
+
+            let edittodo=getdata.find(n=>n.id==clickid)
+
+            todoinput.value=edittodo.userinput;
+
+            editid=clickid;
+
+            savetodos();
+
+            rendertodos();
+        }
+    })
+
+        allbtn.addEventListener("click",()=>{
+        
+            rendertodos(getdata)
+        })
+
+        pendingbtn.addEventListener("click",()=>{
+
+            let pended=getdata.filter(n=>n.complete==false)
+
+            rendertodos(pended)
+        })
+
+
+        completebtn.addEventListener("click",()=>{
+
+            let completed=getdata.filter(n=>n.complete==true)
+
+            rendertodos(completed)
+        })
+
+    searchinput.addEventListener("input",()=>{
+
+        let usersearch=searchinput.value.trim();
+
+        let filtered=getdata.filter(n=>n.userinput.toLowerCase().includes(usersearch.toLowerCase()))
+
+        rendertodos(filtered);
+    })
+
+</script>
+
+</html>
