@@ -20,8 +20,10 @@
         }
         #app-bdr{
             min-height: 200px;
-            width:600px;
+            width:100%;
+            max-width:600px;
             background-color: blue;
+            margin-inline:.8rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -125,6 +127,37 @@
             color:red;
             font-size: 3rem;
         }
+    @media (max-width: 600px){
+
+    #app-name{
+        font-size:2rem;
+    }
+    #image{
+        font-size:5rem;
+    }
+    #temp{
+        font-size:2.5rem;
+    }
+    #city{
+        font-size:2rem;
+    }
+    #bottom-div{
+        gap:1rem;
+        flex-direction:column;
+        height:auto;
+    }
+    #div1,
+    #div2{
+        width:100%;
+        font-size:1.2rem;
+    }
+    #city-name{
+        font-size:1rem;
+    }
+    #mis{
+        font-size:1.5rem;
+    }
+}
         
     </style>
 </head>
@@ -158,7 +191,7 @@
     let clicker=document.querySelector("#search-div");
     let result=document.querySelector("#output")
     let mistake=document.querySelector("#mis")
-    clicker.addEventListener("click",async()=>{
+    async function fn(){
     try{
         let ipt=user.value.trim();
         if(ipt==""){
@@ -323,6 +356,12 @@ else if(image=="Thunderstorm"){
     catch(error){
         mistake.innerHTML="This city is not exist";
         console.log(error);
+    }
+}
+clicker.addEventListener("click",fn);
+user.addEventListener("keydown",(e)=>{
+    if(e.key==="Enter"){
+        fn();
     }
 })
 </script>
