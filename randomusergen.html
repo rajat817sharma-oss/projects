@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        .ui-bdr{
+            height:100vh;
+            width:100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;;
+        }
+        #ui{
+            height:400px;
+            width:400px;
+            border-radius: 20px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding-block:1rem;
+        }
+        #p1{
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        #btn1{
+            height:50px;
+            width:90%;
+            border-radius: 10px;
+            background-color: #4169e1;
+            border:0;
+            color:white;
+            font-size: 1.3rem;
+        }
+        #bld{
+            font-weight: bold;
+        }
+        #userdiv{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap:.8rem;
+        }
+        #userdiv img{
+            height:100px;
+            width:100px;
+            border-radius: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ui-bdr">
+        <div id="ui">
+            <p id="p1">Random User Generator</p>
+            <div id="userdiv">
+
+            </div>
+            <button id="btn1">Generate New User</button>
+        </div>
+    </div>
+</body>
+<script>
+    let clicker=document.querySelector("#btn1")
+    let ranpro=document.querySelector("#userdiv")
+    clicker.addEventListener("click",async()=>{
+        try{
+        let response=await fetch(`https://randomuser.me/api/`);
+        if(!response.ok){
+            ranpro.innerHTML="something went wrong";
+        }
+        let data=await response.json();
+        let user = data.results[0];
+        ranpro.innerHTML=`
+        <img src="${user.picture.large}">
+        <p><span id=bld>Name</span>
+        ${user.name.first} ${user.name.last}</p>
+        <p><span id=bld>Email</span>
+        ${user.email}</p>
+        <p><span id=bld>Country</span>
+        ${user.location.country}</p>
+        <p><span id=bld>Phone no.</span>
+        ${user.phone}</p>`
+    }
+    catch(error){
+        ranpro.innerHTML="404 data not found";
+        console.log(error);
+    }
+    })
+    
+
+</script>
+</html>
